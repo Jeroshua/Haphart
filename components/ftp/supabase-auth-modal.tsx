@@ -60,13 +60,40 @@ export function SupabaseAuthModal({ isOpen, onClose }: AuthModalProps) {
         return
       }
 
-      setMessage(
-        'Check your email for a confirmation link to complete sign up'
-      )
-      setEmail('')
-      setPassword('')
-      setAdminSecret('')
-      setIsAdmin(false)
+      // Auto-confirm email for admin accounts
+      if (isAdmin && data.user?.id) {
+        try {
+          const response = await fetch('/api/admin/confirm-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId: data.user.id }),
+          })
+
+          if (!response.ok) {
+            throw new Error('Failed to confirm email')
+          }
+
+          setMessage('Admin account created! You can now login.')
+          setEmail('')
+          setPassword('')
+          setAdminSecret('')
+          setIsAdmin(false)
+        } catch (err: any) {
+          setError('Account created but auto-confirmation failed. Please check your email.')
+          setEmail('')
+          setPassword('')
+          setAdminSecret('')
+          setIsAdmin(false)
+        }
+      } else {
+        setMessage(
+          'Check your email for a confirmation link to complete sign up'
+        )
+        setEmail('')
+        setPassword('')
+        setAdminSecret('')
+        setIsAdmin(false)
+      }
     } catch (err: any) {
       setError(err.message || 'An error occurred')
     } finally {
