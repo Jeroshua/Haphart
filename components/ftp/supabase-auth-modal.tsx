@@ -12,6 +12,8 @@ export function SupabaseAuthModal({ isOpen, onClose }: AuthModalProps) {
   const [tab, setTab] = useState<'login' | 'register'>('login')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [isAdmin, setIsAdmin] = useState(false)
+  const [adminSecret, setAdminSecret] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
@@ -25,6 +27,15 @@ export function SupabaseAuthModal({ isOpen, onClose }: AuthModalProps) {
     setLoading(true)
 
     try {
+      // Verify admin secret if creating admin account
+      if (isAdmin) {
+        if (adminSecret !== process.env.NEXT_PUBLIC_ADMIN_SECRET) {
+          setError('Invalid admin secret')
+          setLoading(false)
+          return
+        }
+      }
+
       const { data, error: signUpError } = await supabase.auth.signUp({
         email,
         password,
@@ -34,6 +45,7 @@ export function SupabaseAuthModal({ isOpen, onClose }: AuthModalProps) {
             `${window.location.origin}/auth/callback`,
           data: {
             username: email.split('@')[0],
+            is_admin: isAdmin,
           },
         },
       })
@@ -53,6 +65,8 @@ export function SupabaseAuthModal({ isOpen, onClose }: AuthModalProps) {
       )
       setEmail('')
       setPassword('')
+      setAdminSecret('')
+      setIsAdmin(false)
     } catch (err: any) {
       setError(err.message || 'An error occurred')
     } finally {
@@ -161,6 +175,44 @@ export function SupabaseAuthModal({ isOpen, onClose }: AuthModalProps) {
               required
             />
           </div>
+
+          {tab === 'register' && (
+            <>
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="admin-checkbox"
+                  checked={isAdmin}
+                  onChange={(e) => setIsAdmin(e.target.checked)}
+                  disabled={loading}
+                  className="w-4 h-4 bg-[#0f1419] border border-[#2d3a50] rounded cursor-pointer"
+                />
+                <label htmlFor="admin-checkbox" className="text-sm font-medium text-[#94a3b8]">
+                  Create as Admin Account
+                </label>
+              </div>
+
+              {isAdmin && (
+                <div>
+                  <label className="block text-sm font-medium text-[#94a3b8] mb-2">
+                    Admin Secret Key
+                  </label>
+                  <input
+                    type="password"
+                    value={adminSecret}
+                    onChange={(e) => setAdminSecret(e.target.value)}
+                    placeholder="Enter admin secret"
+                    disabled={loading}
+                    className="w-full bg-[#0f1419] border border-[#2d3a50] rounded px-3 py-2 text-white placeholder-[#475569] focus:outline-none focus:border-cyan-500 transition disabled:opacity-50"
+                    required
+                  />
+                  <p className="text-xs text-[#475569] mt-2">
+                    Contact system administrator for the admin secret key
+                  </p>
+                </div>
+              )}
+            </>
+          )}
 
           {error && <p className="text-red-400 text-sm">{error}</p>}
           {message && <p className="text-cyan-400 text-sm">{message}</p>}

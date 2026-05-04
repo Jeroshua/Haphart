@@ -4,11 +4,12 @@ import { useState } from 'react'
 import { AuthProvider, useAuth } from '@/lib/auth-context'
 import { SupabaseAuthModal } from '@/components/ftp/supabase-auth-modal'
 import { SupabaseFileManager } from '@/components/ftp/supabase-file-manager'
+import { AdminDashboard } from '@/components/ftp/admin-dashboard'
 import { createClient } from '@/lib/supabase/client'
 import { Homepage } from '@/components/ftp/homepage'
 
 function FTPVaultContent() {
-  const { user, loading } = useAuth()
+  const { user, loading, isAdmin } = useAuth()
   const [showAuthModal, setShowAuthModal] = useState(false)
   const supabase = createClient()
 
@@ -36,6 +37,25 @@ function FTPVaultContent() {
     )
   }
 
+  // Admin users see the admin dashboard
+  if (isAdmin) {
+    return (
+      <div className="min-h-screen bg-[#080c14] text-[#e2e8f0]">
+        <AdminDashboard />
+        {/* Admin Logout Button */}
+        <div className="fixed bottom-6 right-6">
+          <button
+            onClick={handleLogout}
+            className="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded transition"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  // Regular users see the file manager
   return (
     <div className="min-h-screen bg-[#080c14] text-[#e2e8f0]">
       {/* Header */}
