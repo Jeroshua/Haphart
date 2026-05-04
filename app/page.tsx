@@ -1,117 +1,100 @@
-"use client"
+'use client'
 
-import { useState, useEffect, useCallback } from "react"
-import { Homepage } from "@/components/ftp/homepage"
-import { AuthModal } from "@/components/ftp/auth-modal"
-import { Dashboard } from "@/components/ftp/dashboard"
-import { NotificationContainer } from "@/components/ftp/notifications"
-import type { User, Notification } from "@/lib/ftp-types"
-import {
-  getUsers,
-  saveUsers,
-  getActivity,
-  saveActivity,
-} from "@/lib/ftp-storage"
+import { useState } from 'react'
+import { AuthProvider, useAuth } from '@/lib/auth-context'
+import { SupabaseAuthModal } from '@/components/ftp/supabase-auth-modal'
+import { SupabaseFileManager } from '@/components/ftp/supabase-file-manager'
+import { AdminDashboard } from '@/components/ftp/admin-dashboard'
+import { createClient } from '@/lib/supabase/client'
+import { Homepage } from '@/components/ftp/homepage'
+
+function FTPVaultContent() {
+  const { user, loading, isAdmin } = useAuth()
+  const [showAuthModal, setShowAuthModal] = useState(false)
+  const supabase = createClient()
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut()
+  }
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-[#080c14]">
+        <p className="text-[#e2e8f0]">Loading...</p>
+      </div>
+    )
+  }
+
+  if (!user) {
+    return (
+      <>
+        <Homepage onOpenModal={() => setShowAuthModal(true)} />
+        <SupabaseAuthModal
+          isOpen={showAuthModal}
+          onClose={() => setShowAuthModal(false)}
+        />
+      </>
+    )
+  }
+
+  // Admin users see the admin dashboard
+  if (isAdmin) {
+    return (
+      <div className="min-h-screen bg-[#080c14] text-[#e2e8f0]">
+        <AdminDashboard />
+        {/* Admin Logout Button */}
+        <div className="fixed bottom-6 right-6">
+          <button
+            onClick={handleLogout}
+            className="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded transition"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  // Regular users see the file manager
+  return (
+    <div className="min-h-screen bg-[#080c14] text-[#e2e8f0]">
+      {/* Header */}
+      <header className="border-b border-[#2d3a50] bg-[#0f1419] sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-cyan-400">FTPVault</h1>
+            <p className="text-sm text-[#94a3b8]">Secure File Transfer</p>
+          </div>
+          <div className="flex items-center gap-4">
+            <span className="text-sm text-[#94a3b8]">{user.email}</span>
+            <button
+              onClick={handleLogout}
+              className="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded transition"
+            >
+              Logout
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-6 py-12">
+        <div>
+          <h2 className="text-3xl font-bold text-white mb-2">File Manager</h2>
+          <p className="text-[#94a3b8] mb-8">
+            Upload, manage, and organize your files with military-grade encryption.
+          </p>
+          <SupabaseFileManager />
+        </div>
+      </main>
+    </div>
+  )
+}
 
 export default function FTPVaultPage() {
-  const [currentView, setCurrentView] = useState<"homepage" | "dashboard">("homepage")
-  const [currentUser, setCurrentUser] = useState<User | null>(null)
-  const [showModal, setShowModal] = useState(false)
-  const [modalTab, setModalTab] = useState<"login" | "register">("login")
-  const [notifications, setNotifications] = useState<Notification[]>([])
-
-  // Initialize default admin user
-  useEffect(() => {
-    const users = getUsers()
-    if (!users.find((u) => u.username === "admin")) {
-      users.push({
-        id: "u1",
-        name: "Administrator",
-        username: "admin",
-        email: "admin@ftpvault.io",
-        password: "admin123",
-        role: "admin",
-        quota: "Unlimited",
-        status: "active",
-        joined: new Date().toISOString(),
-      })
-      saveUsers(users)
-    }
-  }, [])
-
-  const notify = useCallback((msg: string, type: "success" | "error" | "info" = "info") => {
-    const id = Date.now().toString()
-    setNotifications((prev) => [...prev, { id, msg, type }])
-    setTimeout(() => {
-      setNotifications((prev) => prev.filter((n) => n.id !== id))
-    }, 3500)
-  }, [])
-
-  const logActivity = useCallback((msg: string, type: string, color: string) => {
-    const log = getActivity()
-    log.unshift({ msg, type, color, time: new Date().toISOString() })
-    if (log.length > 100) log.pop()
-    saveActivity(log)
-  }, [])
-
-  const openModal = (tab: "login" | "register") => {
-    setModalTab(tab)
-    setShowModal(true)
-  }
-
-  const closeModal = () => {
-    setShowModal(false)
-  }
-
-  const handleLogin = (user: User) => {
-    setCurrentUser(user)
-    setCurrentView("dashboard")
-    closeModal()
-    logActivity(`${user.name} logged in`, "login", "var(--green)")
-    notify(`Welcome back, ${user.name}!`, "success")
-  }
-
-  const handleRegister = (user: User) => {
-    setCurrentUser(user)
-    setCurrentView("dashboard")
-    closeModal()
-    logActivity(`${user.name} registered & logged in`, "register", "var(--accent)")
-    notify(`Account created! Welcome, ${user.name}!`, "success")
-  }
-
-  const handleLogout = () => {
-    if (currentUser) {
-      logActivity(`${currentUser.name} logged out`, "logout", "var(--yellow)")
-    }
-    setCurrentUser(null)
-    setCurrentView("homepage")
-    notify("Logged out successfully", "info")
-  }
-
   return (
-    <>
-      <NotificationContainer notifications={notifications} />
-
-      {currentView === "homepage" && <Homepage onOpenModal={openModal} />}
-
-      {currentView === "dashboard" && currentUser && (
-        <Dashboard
-          user={currentUser}
-          onLogout={handleLogout}
-          notify={notify}
-          logActivity={logActivity}
-        />
-      )}
-
-      <AuthModal
-        isOpen={showModal}
-        onClose={closeModal}
-        activeTab={modalTab}
-        onTabChange={setModalTab}
-        onLogin={handleLogin}
-        onRegister={handleRegister}
-        notify={notify}
-      />
-    </>
+    <AuthProvider>
+      <FTPVaultContent />
+    </AuthProvider>
   )
 }
