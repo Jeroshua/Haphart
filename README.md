@@ -1,5 +1,9 @@
 # 📡 FTPVault Cloud — Full-Stack File Management System
 
+Access the deployed application here:
+
+🔗 (https://v0-jeroshua.vercel.app/)
+
 ## 🚀 System Architecture
 
 FTPVault Cloud is a **full-stack file management system** designed to simulate and evolve into a production-grade FTP-like platform. It combines a modern frontend, a secure backend API, and persistent storage on a VPS.
