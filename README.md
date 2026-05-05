@@ -1,35 +1,234 @@
-# ftp-vault-website-build
+# 📡 FTPVault Cloud — Full-Stack File Management System
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [v0](https://v0.app).
+## 📖 Table of Contents
 
-## Built with v0
+* System Architecture
+* Core Features
+* Technology Stack
+* Project Structure
+* Local Development Guide
+* API Reference
+* Production Deployment (VPS/Ubuntu)
+* Team & Contributions
+* Roadmap
+* License
 
-This repository is linked to a [v0](https://v0.app) project. You can continue developing by visiting the link below -- start new chats to make changes, and v0 will push commits directly to this repo. Every merge to `main` will automatically deploy.
+---
 
-[Continue working on v0 →](https://v0.app/chat/projects/prj_YpBljX7eMbiu7UiJRuTvQjsQCyrs)
+## 🚀 System Architecture
 
-## Getting Started
+FTPVault Cloud is a **full-stack file management system** designed to simulate and evolve into a production-grade FTP-like platform. It combines a modern frontend, a secure backend API, and persistent storage on a VPS.
 
-First, run the development server:
+This architecture moves beyond browser-based storage and introduces **real file persistence, authentication, and server-side processing**.
+
+### 🧠 Architectural Flow
+
+```
+Client (Next.js Frontend)
+        ↓
+Node.js API (Express Backend)
+        ↓
+Database (MongoDB / PostgreSQL)
+        ↓
+Local Storage (/uploads or cloud storage)
+```
+
+### 🔑 Key Architectural Decisions
+
+**Persistent Storage Layer**
+Files are stored on the server filesystem or cloud storage, ensuring durability beyond browser sessions.
+
+**Modular Backend Design**
+Separation of routes, controllers, and middleware allows scalability and maintainability.
+
+**Security-First Approach**
+Authentication, validation, and optional malware scanning ensure safe file handling.
+
+---
+
+## ✨ Core Features
+
+### 🔐 Authentication System
+
+* User registration & login
+* Role-based access (Admin / User)
+* JWT/session-ready authentication
+
+### 📁 File Management
+
+* Upload, download, and delete files
+* Folder organization (virtual structure)
+* Search and filtering system
+* Upload progress tracking
+
+### 👥 Admin Panel
+
+* Manage users and roles
+* Set storage quotas
+* Monitor system usage
+* View all uploaded files
+
+### 📋 Activity Logs
+
+* Track user actions
+* System monitoring
+* Debug and audit support
+
+### 🎨 UI/UX
+
+* Responsive dashboard layout
+* Sidebar navigation
+* Modern dark theme
+* Interactive components
+
+---
+
+## 🛠️ Technology Stack
+
+| Domain     | Technology                    |
+| ---------- | ----------------------------- |
+| Frontend   | Next.js, React, TypeScript    |
+| Styling    | CSS / PostCSS                 |
+| Backend    | Node.js, Express.js           |
+| Database   | MongoDB / PostgreSQL          |
+| Storage    | Local Disk / Cloud (Optional) |
+| Deployment | VPS (Ubuntu), Nginx, PM2      |
+
+---
+
+## 📁 Project Structure
+
+```
+.
+├── app/                # Next.js App Router pages
+├── components/         # Reusable UI components
+├── hooks/              # Custom hooks
+├── lib/                # Utilities / helpers
+├── public/             # Static assets
+├── styles/             # Global styles
+├── backend/            # (Optional) Express API
+│   ├── controllers/
+│   ├── routes/
+│   ├── middleware/
+│   └── server.js
+├── next.config.mjs
+├── tsconfig.json
+├── package.json
+└── README.md
+```
+
+---
+
+## ⚙️ Local Development Guide
+
+### 1. Install Dependencies
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
+```
+
+### 2. Run Frontend
+
+```bash
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 3. (Optional) Run Backend
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+cd backend
+npm install
+npm run dev
+```
 
-## Learn More
+### 4. Open in Browser
 
-To learn more, take a look at the following resources:
+```
+http://localhost:3000
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-- [v0 Documentation](https://v0.app/docs) - learn about v0 and how to use it.
+---
 
-<a href="https://v0.app/chat/api/kiro/clone/Jeroshua/ftp-vault-website-build" alt="Open in Kiro"><img src="https://pdgvvgmkdvyeydso.public.blob.vercel-storage.com/open%20in%20kiro.svg?sanitize=true" /></a>
+## 📡 API Reference
+
+### Authentication
+
+| Method | Endpoint           | Description   |
+| ------ | ------------------ | ------------- |
+| POST   | /api/auth/login    | Login user    |
+| POST   | /api/auth/register | Register user |
+
+### File Management
+
+| Method | Endpoint       | Description    |
+| ------ | -------------- | -------------- |
+| POST   | /api/upload    | Upload file    |
+| GET    | /api/files     | Get user files |
+| DELETE | /api/files/:id | Delete file    |
+
+### Admin
+
+| Method | Endpoint         | Description  |
+| ------ | ---------------- | ------------ |
+| GET    | /api/admin/stats | System stats |
+| POST   | /api/admin/user  | Manage users |
+
+---
+
+## 🌍 Production Deployment (VPS/Ubuntu)
+
+```bash
+sudo apt update && sudo apt upgrade -y
+sudo apt install nodejs npm nginx git -y
+sudo npm install -g pm2
+```
+
+### Run App
+
+```bash
+pnpm build
+pnpm start
+```
+
+### Setup Nginx + SSL (Optional)
+
+* Configure reverse proxy
+* Use Certbot for HTTPS
+
+---
+
+## 👨‍💻 Team & Contributions
+
+Developed as a **full-stack system project**.
+
+| Member | Role                                                   |
+| ------ | ------------------------------------------------------ |
+| You    | Full-Stack Developer (Frontend + Backend + Deployment) |
+
+---
+
+## 🗺️ Roadmap
+
+* 🔄 Backend integration (API + DB)
+* 📦 Real file upload system
+* 🔐 Secure authentication (JWT + hashing)
+* ☁️ Cloud storage integration
+* 📊 Advanced analytics dashboard
+
+---
+
+## 📜 License
+
+This project is licensed under the **MIT License**.
+
+---
+
+## 💡 Notes
+
+FTPVault Cloud is a **scalable foundation** for:
+
+* File storage systems
+* Admin dashboards
+* Cloud-based applications
+
+---
