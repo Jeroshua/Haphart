@@ -203,7 +203,7 @@ Developed as a **full-stack system project**.
 ---
 ## 👨‍💻 Team & Contributions
 
-This project was developed and maintained by **Group 2**, with each member contributing to different aspects of system design, development, deployment, and quality assurance.
+This project was developed and maintained by **Group Haphart**, with each member contributing to different aspects of system design, development, deployment, and quality assurance.
 
 ---
 
