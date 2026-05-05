@@ -1,20 +1,5 @@
 # 📡 FTPVault Cloud — Full-Stack File Management System
 
-## 📖 Table of Contents
-
-* System Architecture
-* Core Features
-* Technology Stack
-* Project Structure
-* Local Development Guide
-* API Reference
-* Production Deployment (VPS/Ubuntu)
-* Team & Contributions
-* Roadmap
-* License
-
----
-
 ## 🚀 System Architecture
 
 FTPVault Cloud is a **full-stack file management system** designed to simulate and evolve into a production-grade FTP-like platform. It combines a modern frontend, a secure backend API, and persistent storage on a VPS.
@@ -216,10 +201,82 @@ Developed as a **full-stack system project**.
 * 📊 Advanced analytics dashboard
 
 ---
+## 👨‍💻 Team & Contributions
 
-## 📜 License
+This project was developed and maintained by **Group 2**, with each member contributing to different aspects of system design, development, deployment, and quality assurance.
 
-This project is licensed under the **MIT License**.
+---
+
+### 👥 Team Members
+
+**Jerico Deliva**
+Lead System Architect and Full-Stack Developer responsible for:
+
+* Designing the overall system architecture
+* Developing the React/Next.js frontend
+* Building the backend API (Express.js / planned integration)
+* Implementing file handling logic and validation
+* Integrating authentication and database systems
+* Deploying the application (Nginx, SSL, PM2)
+* Handling CI/CD planning and infrastructure optimization
+
+---
+
+**China Faye Carbonero**
+Quality Assurance and Project Manager responsible for:
+
+* Coordinating development timelines
+* Managing cloud resources and deployment planning
+* Monitoring operational costs
+* Securing development resources (e.g., GitHub Student Pack)
+
+---
+
+**Trisha Polinag**
+Infrastructure and Frontend Contributor responsible for:
+
+* Setting up and configuring the Ubuntu VPS environment
+* Assisting in deployment and server configuration
+* Supporting frontend styling and responsiveness
+
+---
+
+**Marielle Murphy Linatoc**
+Backend Developer responsible for:
+
+* API routing and request handling
+* Middleware integration
+* Debugging backend-related logic (planned / future backend layer)
+
+---
+
+**Sofia Aimarie Enmasino**
+Backend Developer responsible for:
+
+* Database configuration and structure
+* Implementing storage quota logic
+* Optimizing database queries and performance (planned backend integration)
+
+---
+
+**Shanelle Dela Peña**   
+Frontend Developer responsible for:
+
+* Structuring UI components
+* Improving user interface and experience (UI/UX)
+* Ensuring responsiveness across devices
+
+---
+
+**Marc Oraya**
+Quality Assurance and Technical Support responsible for:
+
+* System testing and validation
+* Identifying bugs and inconsistencies
+* Assisting in deployment troubleshooting
+
+---
+
 
 ---
 
