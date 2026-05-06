@@ -211,74 +211,45 @@ This project was developed and maintained by **Group Haphart**, with each member
 
 ---
 
-### 👥 Team Members
+Team & Contributions
+
+This project was developed by Group 2, with each member contributing to different parts of the system.
+
+👥 Team Members
 
 **Jerico Deliva**
-Lead System Architect and Full-Stack Developer responsible for:
 
-* Designing the overall system architecture
-* Developing the React/Next.js frontend
-* Building the backend API (Express.js / planned integration)
-* Implementing file handling logic and validation
-* Integrating authentication and database systems
-* Deploying the application (Nginx, SSL, PM2)
-* Handling CI/CD planning and infrastructure optimization
-
----
+Led the system development
+Worked on both frontend and backend
 
 **China Faye Carbonero**
-Quality Assurance and Project Manager responsible for:
 
-* Coordinating development timelines
-* Managing cloud resources and deployment planning
-* Monitoring operational costs
-* Securing development resources (e.g., GitHub Student Pack)
-
----
+Managed the project and timeline
+Helped in testing and organizing the system
 
 **Trisha Polinag**
-Infrastructure and Frontend Contributor responsible for:
 
-* Setting up and configuring the Ubuntu VPS environment
-* Assisting in deployment and server configuration
-* Supporting frontend styling and responsiveness
-
----
+Helped in frontend design
 
 **Marielle Murphy Linatoc**
-Backend Developer responsible for:
 
-* API routing and request handling
-* Middleware integration
-* Debugging backend-related logic (planned / future backend layer)
-
----
+Assisted in backend development
+Helped handle system logic
 
 **Sofia Aimarie Enmasino**
-Backend Developer responsible for:
 
-* Database configuration and structure
-* Implementing storage quota logic
-* Optimizing database queries and performance (planned backend integration)
+Worked on the database setup
+Helped manage data storage
 
----
+**Shanelle Dela Peña**
 
-**Shanelle Dela Peña**   
-Frontend Developer responsible for:
-
-* Structuring UI components
-* Improving user interface and experience (UI/UX)
-* Ensuring responsiveness across devices
-
----
+Designed the user interface
+Improved system appearance and usability
 
 **Marc Oraya**
-Quality Assurance and Technical Support responsible for:
 
-* System testing and validation
-* Identifying bugs and inconsistencies
-* Assisting in deployment troubleshooting
-
+Tested the system
+Helped find and fix errors
 ---
 
 
